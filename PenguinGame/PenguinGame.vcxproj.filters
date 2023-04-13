@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\map">
+      <UniqueIdentifier>{f6c8f4c5-cb4d-435d-9904-ed6fb444e7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\img">
+      <UniqueIdentifier>{c6505ad0-e2a9-4ceb-aaf6-829aa15a1b91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\audio">
+      <UniqueIdentifier>{d3bc1294-8cdb-4eff-9efb-b8161e4205f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\font">
+      <UniqueIdentifier>{485193b5-ee4d-4823-b646-1d4afa6aeacd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="test_SDL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Recursos\map\tileMap.txt">
+      <Filter>Resource Files\map</Filter>
+    </Text>
+    <Text Include="..\..\Recursos\font\License - READ THIS.txt">
+      <Filter>Resource Files\font</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Recursos\img\alien.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\aliendeath.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\cubngun.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\lose.jpg">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\minion.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\minionbullet1.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\minionbullet2.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\miniondeath.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\ocean.jpg">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\penguin.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\penguinbullet.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\penguindeath.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\penguinface.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\tileset.png">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\title.jpg">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+    <Image Include="..\..\Recursos\img\win.jpg">
+      <Filter>Resource Files\img</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\Recursos\audio\boom.wav">
+      <Filter>Resource Files\audio</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Recursos\audio\endStateLose.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+    <None Include="..\..\Recursos\audio\endStateWin.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+    <None Include="..\..\Recursos\audio\stageState.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\Recursos\font\Call me maybe.ttf">
+      <Filter>Resource Files\font</Filter>
+    </Font>
+  </ItemGroup>
+</Project>
