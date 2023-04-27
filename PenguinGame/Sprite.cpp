@@ -1,10 +1,9 @@
 #include "Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite() : texture(nullptr) {
-}
+Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr) {}
 
-Sprite::Sprite(string file) : texture(nullptr) {
+Sprite::Sprite(GameObject& associated, string file) : Component(associated), texture(nullptr) {
 	Open(file);
 }
 
@@ -36,10 +35,10 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render() {
 	SDL_Rect dstrect;
-	dstrect.x = x;
-	dstrect.y = y;
+	dstrect.x = associated.box.x;
+	dstrect.y = associated.box.y;
 	dstrect.h = clipRect.h;
 	dstrect.w = clipRect.w;
 
@@ -57,4 +56,10 @@ int Sprite::GetWidth() {
 
 bool Sprite::IsOpen() {
 	return texture != nullptr;
+}
+
+void Sprite::Update(float dt) {}
+
+bool Sprite::Is(std::string type) {
+	return type.compare("Sprite") == 0;
 }

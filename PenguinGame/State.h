@@ -13,13 +13,18 @@
 class State {
 public:
 	State();
+	~State();
+	void Input();	// handle user input
+	void AddObject(int mouseX, int mouseY);
 	bool QuitRequested();
 	void LoadAssets();
 	void Update(float dt);
 	void Render();
 
 private:
-	Sprite bg;
+	// manage game objects, unique_ptr for auto memory management of a GameObject
+	std::vector<std::unique_ptr<GameObject>> objectArray;
+	GameObject* bg;
 	Music music;
 	bool quitRequested;
 };
