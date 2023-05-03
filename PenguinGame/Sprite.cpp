@@ -23,7 +23,7 @@ void Sprite::Open(string file) {
 		exit(EXIT_FAILURE);
 	}
 
-	// set width and height of image
+	// get width and height of image
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 	SetClip(0, 0, width, height);	// clip will encompass the whole image
 }

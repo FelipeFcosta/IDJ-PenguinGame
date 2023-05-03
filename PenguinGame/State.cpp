@@ -7,11 +7,11 @@
 #define PI 3.14159
 
 State::State() : quitRequested(false) {
-	bg = new GameObject();
-	Sprite *oceanSprite =  new Sprite(*bg);
+	bg = new GameObject();	// bg is a gameObject that contains the ocean image component
+	Sprite *oceanSprite =  new Sprite(*bg, "resources/img/ocean.jpg");
 	bg->AddComponent(oceanSprite);
 
-	oceanSprite->Open("resources/img/ocean.jpg");
+	//oceanSprite->Open("resources/img/ocean.jpg");
 	music.Open("resources/audio/stageState.ogg");
 	if (music.IsOpen()) {
 		music.Play();
@@ -128,7 +128,6 @@ void State::Update(float dt) {
 }
 
 void State::Render() {
-	bg->Render();
 	for (auto it = objectArray.begin(); it != objectArray.end(); it++) {
 		(*it).get()->Render();
 	}

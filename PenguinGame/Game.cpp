@@ -47,7 +47,7 @@ Game::Game(string title, int width, int height) : window(nullptr), renderer(null
 			exit(EXIT_FAILURE);
 		}
 
-		state = new State();
+		state = new State();	// fow now the only state of the game
 	}
 }
 
