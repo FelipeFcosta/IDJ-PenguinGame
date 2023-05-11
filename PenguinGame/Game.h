@@ -1,12 +1,12 @@
 #pragma once
+#ifndef GAME_H
+#define GAME_H
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "State.h"
 
 #include <string>
-
-using namespace std;
 
 class Game
 {
@@ -18,7 +18,7 @@ public:
 	static Game& GetInstance();	// returns a reference to the instance of the class
 
 private:
-	Game(string title, int width, int height);
+	Game(std::string title, int width, int height);
 	
 	static Game* instance;
 	SDL_Window* window;
@@ -26,3 +26,4 @@ private:
 	State* state;
 };
 
+#endif // GAME_H

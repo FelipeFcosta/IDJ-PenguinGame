@@ -3,20 +3,30 @@
 #include "Vec2.h"
 #include "Face.h"
 #include "Sound.h"
+#include "TileMap.h"
 
 #define PI 3.14159
+#define TILE_SIZE 64
 
 State::State() : quitRequested(false) {
 	bg = new GameObject();	// bg is a gameObject that contains the ocean image component
 	Sprite *oceanSprite =  new Sprite(*bg, "resources/img/ocean.jpg");
 	bg->AddComponent(oceanSprite);
+	objectArray.emplace_back(bg);
 
-	//oceanSprite->Open("resources/img/ocean.jpg");
+	GameObject* tileObj = new GameObject();
+	tileObj->box.x = 0;
+	tileObj->box.y = 0;
+
+	TileSet* tileSet = new TileSet(TILE_SIZE, TILE_SIZE, "resources/img/tileset.png");
+	TileMap* tileMap = new TileMap(*tileObj, "resources/map/tileMap.txt", tileSet);
+	tileObj->AddComponent(tileMap);
+	objectArray.emplace_back(tileObj);
+
 	music.Open("resources/audio/stageState.ogg");
 	if (music.IsOpen()) {
 		music.Play();
 	}
-	objectArray.emplace_back(bg);
 }
 
 State::~State() {
@@ -83,7 +93,7 @@ void State::Input() {
 
 void State::AddObject(int mouseX, int mouseY) {
 	GameObject *enemyObject = new GameObject();	// holds enemy with sprite, sound and properties
-	Sprite *enemySprite = new Sprite(*enemyObject, "resources/img/penguinface.png");
+	Sprite* enemySprite = new Sprite(*enemyObject, "resources/img/penguinface.png");
 	enemyObject->AddComponent(enemySprite);
 
 	enemyObject->box.x = mouseX - enemySprite->GetHeight()/2;

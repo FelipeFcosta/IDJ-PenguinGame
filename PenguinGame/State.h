@@ -1,13 +1,11 @@
 #pragma once
-
 #ifndef STATE_H
 #define STATE_H
-
 #include "SDL.h"
 #include "Sprite.h"
 #include "Music.h"
-
-#include <iostream>
+#include <vector>
+#include <memory>
 
 // responsable for the logic of our game
 class State {

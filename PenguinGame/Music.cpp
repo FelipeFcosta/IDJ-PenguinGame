@@ -1,21 +1,22 @@
 #include "Music.h"
+#include "Resources.h"
+#include <iostream>
 
 Music::Music() {
 	music = nullptr;
 }
 
-Music::Music(string file) {
+Music::Music(std::string file) {
 	Open(file);
 }
 
 Music::~Music() {
 	Stop(1500);
-	Mix_FreeMusic(music);
 }
 
 void Music::Play(int times) {
 	if (Mix_PlayMusic(music, times) == -1) {
-		cout << "error playing music: " << SDL_GetError();
+		std::cout << "error playing music: " << SDL_GetError();
 	}
 }
 
@@ -23,11 +24,8 @@ void Music::Stop(int msToStop) {
 	Mix_FadeOutMusic(msToStop);
 }
 
-void Music::Open(string file) {
-	music = Mix_LoadMUS(file.c_str());
-	if (music == nullptr) {
-		cout << "error loading music file " << file << ": " << SDL_GetError();
-	}
+void Music::Open(std::string file) {
+	music = Resources::GetMusic(file.c_str());
 }
 
 bool Music::IsOpen() {

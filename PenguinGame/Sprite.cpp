@@ -1,29 +1,21 @@
 #include "Sprite.h"
 #include "Game.h"
+#include "Resources.h"
+#include <iostream>
 
 Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr) {}
 
-Sprite::Sprite(GameObject& associated, string file) : Component(associated), texture(nullptr) {
+Sprite::Sprite(GameObject& associated, std::string file) : Component(associated), texture(nullptr) {
 	Open(file);
 }
 
 Sprite::~Sprite() {
-	SDL_DestroyTexture(texture);
-	texture = nullptr;
+	// SDL_DestroyTexture(texture);	// not destroying since we're now sharing resources between objects
 }
 
-void Sprite::Open(string file) {
-	if (IsOpen()) {
-		texture = nullptr;
-	}
-
-	texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-	if (texture == nullptr) {
-		cout << "Error loading" << file << ": " << SDL_GetError() << endl;
-		exit(EXIT_FAILURE);
-	}
-
-	// get width and height of image
+void Sprite::Open(std::string file) {
+	texture = Resources::GetImage(file);
+	// get and set width and height of image
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 	SetClip(0, 0, width, height);	// clip will encompass the whole image
 }
@@ -36,9 +28,13 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render() {
+	Render(associated.box.x, associated.box.y);
+}
+
+void Sprite::Render(int x, int y) {
 	SDL_Rect dstrect;
-	dstrect.x = associated.box.x;
-	dstrect.y = associated.box.y;
+	dstrect.x = x;
+	dstrect.y = y;
 	dstrect.h = clipRect.h;
 	dstrect.w = clipRect.w;
 

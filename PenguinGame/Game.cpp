@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "Resources.h"
+#include <iostream>
 
 Game* Game::instance = nullptr;
 
@@ -9,27 +11,27 @@ Game& Game::GetInstance() {
 	return *instance;
 }
 
-Game::Game(string title, int width, int height) : window(nullptr), renderer(nullptr), state(nullptr) {
+Game::Game(std::string title, int width, int height) : window(nullptr), renderer(nullptr), state(nullptr) {
 	if (instance == nullptr) {
 		instance = this;
 
 		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0) {
-			cout << "Error initializing SDL: " << SDL_GetError();
+			std::cout << "Error initializing SDL: " << SDL_GetError();
 			exit(EXIT_FAILURE);
 		}
 
 		if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF) == 0) {
-			cout << "Error initializing SDL_Image: " << IMG_GetError();
+			std::cout << "Error initializing SDL_Image: " << IMG_GetError();
 			exit(EXIT_FAILURE);
 		}
 
 		if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD) == 0) {
-			cout << "Error initializing SDL_Mixer: " << Mix_GetError();
+			std::cout << "Error initializing SDL_Mixer: " << Mix_GetError();
 			exit(EXIT_FAILURE);
 		}
 
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0) {
-			cout << "Error opening SDL_Mixer audio" << endl;
+			std::cout << "Error opening SDL_Mixer audio" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 		Mix_AllocateChannels(32); // simultaneous audio channels
@@ -37,17 +39,17 @@ Game::Game(string title, int width, int height) : window(nullptr), renderer(null
 		int windowFlags = 0; // window properties, e.g. SDL_WINDOW_FULLSCREEN
 		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, windowFlags);
 		if (window == nullptr) {
-			cout << "Error creating SDL_Window" << endl;
+			std::cout << "Error creating SDL_Window" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
 		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 		if (renderer == nullptr) {
-			cout << "Error creating SDL_Renderer" << endl;
+			std::cout << "Error creating SDL_Renderer" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
-		state = new State();	// fow now the only state of the game
+		state = new State();	// the only state of the game for now
 	}
 }
 
@@ -68,6 +70,10 @@ void Game::Run() {
 		int FPS = 30;
 		SDL_Delay(1000/FPS);
 	}
+	Resources::ClearImages();
+	Resources::ClearImages();
+	Resources::ClearSounds();
+
 }
 
 SDL_Renderer* Game::GetRenderer() {

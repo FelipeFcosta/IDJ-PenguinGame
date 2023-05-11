@@ -1,7 +1,6 @@
 #pragma once
 #ifndef SOUND_H
 #define SOUND_H
-
 #include <string>
 #include "Component.h"
 #include "GameObject.h"
