@@ -70,10 +70,7 @@ void Game::Run() {
 		int FPS = 30;
 		SDL_Delay(1000/FPS);
 	}
-	Resources::ClearImages();
-	Resources::ClearImages();
-	Resources::ClearSounds();
-
+	Resources::ClearAll();
 }
 
 SDL_Renderer* Game::GetRenderer() {

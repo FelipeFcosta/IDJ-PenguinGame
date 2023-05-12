@@ -34,10 +34,6 @@ void TileMap::SetTileSet(TileSet* tileSet) {
 	this->tileSet = tileSet;
 }
 
-int TileMap::CoordToIndex(int x, int y, int z) {
-	return x + y * mapWidth + z * mapWidth * mapHeight;
-}
-
 int& TileMap::At(int x, int y, int z) {
 	return tileMatrix.at(CoordToIndex(x, y, z));
 }
@@ -73,5 +69,9 @@ int TileMap::getDepth() {
 void TileMap::Update(float dt) {}
 
 bool TileMap::Is(std::string type) {
-	return type.compare("Sprite") == 0;
+	return type.compare("TileMap") == 0;
+}
+
+int TileMap::CoordToIndex(int x, int y, int z) {
+	return x + y * mapWidth + z * mapWidth * mapHeight;
 }

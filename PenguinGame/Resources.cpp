@@ -80,3 +80,9 @@ void Resources::ClearSounds() {
 	musicTable.clear();
 }
 
+void Resources::ClearAll() {
+	ClearImages();
+	ClearMusics();
+	ClearSounds();
+}
+

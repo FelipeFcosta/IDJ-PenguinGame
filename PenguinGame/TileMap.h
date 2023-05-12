@@ -28,17 +28,17 @@ public:
 	int getHeight();
 	int getDepth();
 
-	int CoordToIndex(int x, int y, int z);
-
 	bool Is(std::string type);
 	void Update(float dt);
 
 private:
+	int CoordToIndex(int x, int y, int z);
+	
 	std::vector<int> tileMatrix;
 	TileSet* tileSet;
 	int mapWidth;
 	int mapHeight;
-	int mapDepth;	
+	int mapDepth;
 };
 
 

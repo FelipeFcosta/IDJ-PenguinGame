@@ -18,6 +18,8 @@ public:
 	static Mix_Chunk* GetSound(std::string file);
 	static void ClearSounds();
 
+	static void ClearAll();
+
 private:
 	// keep assets in a unordered_map structure to avoid relocating the same asset
 	// <filename, asset>
