@@ -1,17 +1,31 @@
 #include "Game.h"
 #include "Resources.h"
+#include "InputManager.h"
 #include <iostream>
 
 Game* Game::instance = nullptr;
 
 Game& Game::GetInstance() {
 	if (instance == nullptr) {
-		instance = new Game("Felipe Costa - 190027592", 1024, 600);
+		instance = new Game("Felipe Costa - 190027592", GAME_WIDTH, GAME_HEIGHT);
 	}
 	return *instance;
 }
 
+void Game::CalculateDeltaTime() {
+	int oldFrameStart = frameStart;
+	frameStart = SDL_GetTicks();
+	dt = ((float)frameStart - (float)oldFrameStart)/1000.0f;
+}
+
+float Game::GetDeltaTime() {
+	return dt;
+}
+
 Game::Game(std::string title, int width, int height) : window(nullptr), renderer(nullptr), state(nullptr) {
+	frameStart = 0;
+	dt = 0;
+
 	if (instance == nullptr) {
 		instance = this;
 
@@ -61,13 +75,17 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 	4. Draws the objects to the screen
 */
 void Game::Run() {
+	InputManager& inputManager = InputManager::GetInstance();
 	while (state->QuitRequested() == false) {
-		state->Update(0);
+		CalculateDeltaTime();
+
+		inputManager.Update();
+
+		state->Update(dt);
 		state->Render();
 
 		SDL_RenderPresent(renderer);
 
-		int FPS = 30;
 		SDL_Delay(1000/FPS);
 	}
 	Resources::ClearAll();

@@ -13,7 +13,7 @@ TileSet::TileSet(int tileWidth, int tileHeight, std::string file) : tileWidth(ti
 	}
 }
 
-// render tile (with specified index position) to the screen at (x, y)
+// render tile(with specified index position) to the screen at(x, y)
 void TileSet::RenderTile(unsigned index, float x, float y) {
 	int numTiles = rows * columns;
 	if (index >= 0 && index <= numTiles-1) {

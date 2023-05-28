@@ -1,9 +1,10 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "Resources.h"
+#include "Camera.h"
 #include <iostream>
 
-Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr) {}
+Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr), width(0), height(0) {}
 
 Sprite::Sprite(GameObject& associated, std::string file) : Component(associated), texture(nullptr) {
 	Open(file);
@@ -28,7 +29,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 }
 
 void Sprite::Render() {
-	Render(associated.box.x, associated.box.y);
+	Render(associated.box.x - Camera::pos.x, associated.box.y - Camera::pos.y);
 }
 
 void Sprite::Render(int x, int y) {
@@ -57,5 +58,5 @@ bool Sprite::IsOpen() {
 void Sprite::Update(float dt) {}
 
 bool Sprite::Is(std::string type) {
-	return type.compare("Sprite") == 0;
+	return type == "Sprite";
 }

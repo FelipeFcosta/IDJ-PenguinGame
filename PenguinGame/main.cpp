@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
 
-	Game &game = Game::GetInstance();
+	Game& game = Game::GetInstance();
 
 	game.Run();
 

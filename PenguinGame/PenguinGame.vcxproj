@@ -155,10 +155,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraFollower.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Rect.cpp" />
@@ -171,10 +174,13 @@
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraFollower.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sound.h" />

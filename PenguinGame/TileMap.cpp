@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include "Camera.h"
 #include <iostream>
 
 typedef long long ll;
@@ -40,7 +41,7 @@ int& TileMap::At(int x, int y, int z) {
 
 void TileMap::Render() {
 	for (int layer = 0; layer < mapDepth; layer++) {
-		RenderLayer(layer);
+		RenderLayer(layer, Camera::pos.x, Camera::pos.y);
 	}
 }
 
@@ -48,8 +49,18 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	int numTiles = mapWidth;
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
-			if (At(x, y, layer) != -1)
-				tileSet->RenderTile(At(x, y, layer), x * tileSet->GetTileWidth(), y * tileSet->GetTileHeight());
+			if (At(x, y, layer) != -1) {
+				float parallaxFactor;
+				if (layer == 0) {
+					parallaxFactor = 1;
+				} else {
+					parallaxFactor = 1.4;
+				}
+				float xRenderPos = x * tileSet->GetTileWidth() - cameraX * parallaxFactor;
+				float yRenderPos = y * tileSet->GetTileHeight() - cameraY * parallaxFactor;
+
+				tileSet->RenderTile(At(x, y, layer), xRenderPos, yRenderPos);
+			}
 		}
 	}
 }
@@ -69,7 +80,7 @@ int TileMap::getDepth() {
 void TileMap::Update(float dt) {}
 
 bool TileMap::Is(std::string type) {
-	return type.compare("TileMap") == 0;
+	return type == "TileMap";
 }
 
 int TileMap::CoordToIndex(int x, int y, int z) {

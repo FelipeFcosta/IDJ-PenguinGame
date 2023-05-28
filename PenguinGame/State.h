@@ -12,7 +12,6 @@ class State {
 public:
 	State();
 	~State();
-	void Input();	// handle user input
 	void AddObject(int mouseX, int mouseY);
 	bool QuitRequested();
 	void LoadAssets();
