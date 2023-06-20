@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include <iostream>
 
+// the associated object will always follow the camera
 class CameraFollower : public Component
 {
 public:

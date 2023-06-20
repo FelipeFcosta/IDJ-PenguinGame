@@ -11,6 +11,7 @@ public:
 	virtual ~Component();
 	virtual void Update(float dt) = 0;
 	virtual void Render() = 0;
+	virtual void Start() {};
 	bool virtual Is(std::string type) = 0;
 
 protected:

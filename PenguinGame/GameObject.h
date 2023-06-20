@@ -13,6 +13,7 @@ class GameObject
 public:
 	GameObject();
 	~GameObject();
+	void Start();
     void Update(float dt);
     void Render();
     bool IsDead();
@@ -25,6 +26,7 @@ public:
 private:
 	std::vector<Component*> components;
 	bool isDead;
+	bool started;
 };
 
 #endif // GAME_OBJECT_H

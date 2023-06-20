@@ -3,7 +3,7 @@
 #include "InputManager.h"
 #include <iostream>
 
-#define SPEED 300
+#define	SPEED 300
 
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::speed = Vec2(SPEED, SPEED);

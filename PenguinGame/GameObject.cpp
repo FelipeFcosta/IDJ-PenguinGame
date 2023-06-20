@@ -2,7 +2,7 @@
 #include "Component.h"
 #include <iterator>
 
-GameObject::GameObject() : isDead(false) {}
+GameObject::GameObject() : isDead(false), started(false) {}
 
 GameObject::~GameObject() {
 	std::vector<Component*>::reverse_iterator it;
@@ -11,6 +11,16 @@ GameObject::~GameObject() {
 	}
 	components.clear();
 }
+
+void GameObject::Start() {
+	if (!started) {
+		for (auto it = components.rbegin(); it != components.rend(); it++) {
+			(*it)->Start();
+		}
+	}
+	started = true;
+}
+
 
 void GameObject::Update(float dt) {
 	for (auto it = components.begin(); it != components.end(); it++) {

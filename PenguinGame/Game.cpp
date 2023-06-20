@@ -76,6 +76,7 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 */
 void Game::Run() {
 	InputManager& inputManager = InputManager::GetInstance();
+	state->Start();
 	while (state->QuitRequested() == false) {
 		CalculateDeltaTime();
 

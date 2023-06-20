@@ -155,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraFollower.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Minion.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sound.cpp" />
@@ -174,6 +177,8 @@
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alien.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraFollower.h" />
     <ClInclude Include="Component.h" />
@@ -181,6 +186,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Minion.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sound.h" />

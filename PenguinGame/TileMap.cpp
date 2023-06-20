@@ -50,12 +50,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			if (At(x, y, layer) != -1) {
-				float parallaxFactor;
-				if (layer == 0) {
-					parallaxFactor = 1;
-				} else {
-					parallaxFactor = 1.4;
-				}
+				float parallaxFactor = (layer == 0) ? 1 : 1.4;
 				float xRenderPos = x * tileSet->GetTileWidth() - cameraX * parallaxFactor;
 				float yRenderPos = y * tileSet->GetTileHeight() - cameraY * parallaxFactor;
 

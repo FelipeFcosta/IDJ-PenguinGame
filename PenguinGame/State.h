@@ -12,18 +12,22 @@ class State {
 public:
 	State();
 	~State();
-	void AddObject(int mouseX, int mouseY);
+	void Start();
+	std::weak_ptr<GameObject> AddObject(GameObject *go);
+	std::weak_ptr<GameObject> GetObjectPtr(GameObject *go);
 	bool QuitRequested();
 	void LoadAssets();
 	void Update(float dt);
 	void Render();
 
+
 private:
-	// manage game objects, unique_ptr for auto memory management of a GameObject
-	std::vector<std::unique_ptr<GameObject>> objectArray;
+	// manage game objects, shared_ptr for auto memory management of a GameObject
+	std::vector<std::shared_ptr<GameObject>> objectArray;
 	GameObject* bg;
 	Music music;
 	bool quitRequested;
+	bool started;
 };
 
 #endif // STATE_H
