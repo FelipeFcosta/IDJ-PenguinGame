@@ -24,9 +24,9 @@ public:
 
 	void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
 
-	int getWidth();
-	int getHeight();
-	int getDepth();
+	int GetWidth();
+	int GetHeight();
+	int GetDepth();
 
 	bool Is(std::string type);
 	void Update(float dt);

@@ -3,9 +3,12 @@
 #define ALIEN_H
 #include "GameObject.h"
 #include "Component.h"
+#include "Timer.h"
 #include <vector>
 #include <queue>
 #include <memory>
+
+#define DEFAULT_QTD_MINIONS 3
 
 // mouse-controlled enemy
 class Alien : public Component
@@ -16,24 +19,26 @@ public:
 	void Start();
 	void Update(float dt);
 	void Render();
+	void NotifyCollision(GameObject& other);
 	bool Is(std::string type);
 
+	static int alienCount;
+
 private:
-	class Action
-	{
-	public:
-		enum ActionType { MOVE, SHOOT };		
-		Action(ActionType type, float x, float y);
-
-		ActionType type;
-		Vec2 pos;
-	};
-
 	Vec2 speed;
 	int hp;
+	int nMinions;
 	float rotationAngle;
-	std::queue<Action> taskQueue;	// every click is an Action to be queued
 	std::vector<std::weak_ptr<GameObject>> minionArray;
+	Timer damageTimer;
+
+
+	enum AlienState { MOVING, RESTING };
+	AlienState state;
+
+	Timer restTimer;
+	Vec2 destination;
+
 };
 
 #endif // ALIEN_H

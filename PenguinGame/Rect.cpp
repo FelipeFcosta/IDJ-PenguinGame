@@ -9,3 +9,7 @@ bool Rect::Contains(const Vec2& pos) {
     return (pos.x >= x && pos.x < (x+w)) && (pos.y >= y && pos.y < (y+h));
 }
 
+Vec2 Rect::GetCenter() {
+    return {x + w/2, y + h/2};
+}
+

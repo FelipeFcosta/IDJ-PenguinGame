@@ -1,7 +1,8 @@
 #include "TileSet.h"
 
 // sets width and height of its tiles and opens associated Sprite
-TileSet::TileSet(int tileWidth, int tileHeight, std::string file) : tileWidth(tileWidth), tileHeight(tileHeight), tileSet(*(GameObject*) NULL) {
+TileSet::TileSet(GameObject& associated, int tileWidth, int tileHeight, std::string file) :
+	tileWidth(tileWidth), tileHeight(tileHeight), tileSet(associated) {
 	tileSet.Open(file);
 
 	if (tileSet.IsOpen()) {

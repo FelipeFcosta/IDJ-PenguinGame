@@ -156,9 +156,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraFollower.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -167,6 +169,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Minion.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="PenguinBody.cpp" />
+    <ClCompile Include="PenguinCannon.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -174,13 +178,16 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraFollower.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Game.h" />
@@ -188,6 +195,8 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minion.h" />
     <ClInclude Include="Music.h" />
+    <ClInclude Include="PenguinBody.h" />
+    <ClInclude Include="PenguinCannon.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
@@ -195,6 +204,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>

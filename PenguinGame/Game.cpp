@@ -75,12 +75,12 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 	4. Draws the objects to the screen
 */
 void Game::Run() {
-	InputManager& inputManager = InputManager::GetInstance();
+	InputManager& input = InputManager::GetInstance();
 	state->Start();
 	while (state->QuitRequested() == false) {
 		CalculateDeltaTime();
 
-		inputManager.Update();
+		input.Update();
 
 		state->Update(dt);
 		state->Render();

@@ -14,8 +14,8 @@ GameObject::~GameObject() {
 
 void GameObject::Start() {
 	if (!started) {
-		for (auto it = components.rbegin(); it != components.rend(); it++) {
-			(*it)->Start();
+		for (int i = 0; i < components.size(); i++) {
+			components[i]->Start();
 		}
 	}
 	started = true;
@@ -57,4 +57,10 @@ Component* GameObject::GetComponent(std::string type) {
 		}
 	}
 	return nullptr;
+}
+
+void GameObject::NotifyCollision(GameObject& other) {
+	for (auto it = components.begin(); it != components.end(); it++) {
+		(*it)->NotifyCollision(other);
+	}
 }

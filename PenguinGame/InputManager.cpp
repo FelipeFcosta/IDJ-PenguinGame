@@ -20,7 +20,6 @@ InputManager::~InputManager() {}
 // process the events
 void InputManager::Update() {
     updateCounter++;
-    
     SDL_Event event;
     SDL_GetMouseState(&mouseX, &mouseY);
 
@@ -69,6 +68,11 @@ bool InputManager::KeyRelease(int key) {
     return !keyState[key] && (keyUpdate[key] == updateCounter);
 }
 
+// returns true if the last state of the key was down
+bool InputManager::IsKeyDown(int key) {
+    return keyState[key];
+}
+
 // returns true if the mouse button is being pressed in the current frame
 bool InputManager::MousePress(int key) {
     return mouseState[key] && (mouseUpdate[key] == updateCounter);
@@ -77,11 +81,6 @@ bool InputManager::MousePress(int key) {
 // returns true if the mouse button has just been released (in this current frame)
 bool InputManager::MouseRelease(int key) {
     return !mouseState[key] && (mouseUpdate[key] == updateCounter);
-}
-
-// returns true if the last state of the key was down
-bool InputManager::IsKeyDown(int key) {
-    return keyState[key];
 }
 
 // returns true if the last state of the mouse button was down

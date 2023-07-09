@@ -3,6 +3,7 @@
 #define MINION_H
 #include "GameObject.h"
 #include "Component.h"
+#include "Timer.h"
 #include <memory>
 
 // minions be circling the alien
@@ -15,10 +16,12 @@ public:
 	void Render();
 	bool Is(std::string type);
 	void Shoot(Vec2 target);
+	void NotifyCollision(GameObject& other);
 
 private:
 	std::weak_ptr<GameObject> alienCenter;
 	float arc;
+	Timer damageTimer;
 };
 
 

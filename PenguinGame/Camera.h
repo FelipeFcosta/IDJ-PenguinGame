@@ -2,6 +2,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #include "GameObject.h"
+#include "Timer.h"
 
 class Camera {
 public:
@@ -11,9 +12,12 @@ public:
 
 	static Vec2 pos;
 	static Vec2 speed;
+	static int shakeTime;
 
 private:
 	static GameObject* focus;
+
+	static Timer shakeTimer;
 };
 
 

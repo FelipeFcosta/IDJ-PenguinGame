@@ -13,6 +13,7 @@ public:
 	Rect(float x, float y, float w, float h);
 
 	bool Contains(const Vec2& pos);	// checks if represented box has this vec2 point
+	Vec2 GetCenter();
 };
 
 #endif // RECT_H

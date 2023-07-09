@@ -23,23 +23,23 @@ void Face::Damage(int damage) {
 }
 
 void Face::Update(float dt) {
-	InputManager& inputManager = InputManager::GetInstance();
+	InputManager& input = InputManager::GetInstance();
 
-	if (inputManager.MousePress(LEFT_MOUSE_BUTTON)) {
-		Vec2 clickedPos((float)inputManager.GetMouseX(), (float)inputManager.GetMouseY());
+	if (input.MousePress(LEFT_MOUSE_BUTTON)) {
+		Vec2 clickedPos((float)input.GetMouseX(), (float)input.GetMouseY());
 		if (associated.box.Contains(clickedPos)) {
 			Damage(std::rand() % 10 + 10);
 		}
 	}
 
 	// antes de adicionar considerar a camera no render
-	//if (inputManager.IsKeyDown(LEFT_ARROW_KEY))
+	//if (input.IsKeyDown(LEFT_ARROW_KEY))
 	//	associated.box.x += Camera::speed.x*dt;
-	//if (inputManager.IsKeyDown(RIGHT_ARROW_KEY))
+	//if (input.IsKeyDown(RIGHT_ARROW_KEY))
 	//	associated.box.x -= Camera::speed.x*dt;
-	//if (inputManager.IsKeyDown(UP_ARROW_KEY))
+	//if (input.IsKeyDown(UP_ARROW_KEY))
 	//	associated.box.y += Camera::speed.y*dt;
-	//if (inputManager.IsKeyDown(DOWN_ARROW_KEY))
+	//if (input.IsKeyDown(DOWN_ARROW_KEY))
 	//	associated.box.y -= Camera::speed.y*dt;
 }
 

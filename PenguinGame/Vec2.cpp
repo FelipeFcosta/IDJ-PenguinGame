@@ -4,27 +4,38 @@
 Vec2::Vec2(float x, float y) : x(x), y(y) {
 };
 
-
-// rotates clockwise, since y grows downward
-Vec2 Vec2::GetRotated(float angle) {
-	return { x * cos(angle) - y * sin(angle), x * sin(angle) + y * cos(angle) };
-}
-
-Vec2 Vec2::Normalize(Vec2 v) {
+Vec2 Vec2::Norm(Vec2 v) {
 	float magnitude = Magnitude(v);
 	return { v.x/magnitude, v.y/magnitude};
 }
 
-Vec2 Vec2::Sum(Vec2 v1, Vec2 v2) {
-	return { v1.x + v2.x, v1.y + v2.y };
+// rotates clockwise, since y grows downward
+Vec2 Vec2::Rotate(Vec2 v, float angle) {
+	return { v.x * cos(angle) - v.y * sin(angle), v.x * sin(angle) + v.y * cos(angle) };
 }
 
-Vec2 Vec2::Subtract(Vec2 v1, Vec2 v2) {
-	return { v1.x - v2.x, v1.y - v2.y };
+Vec2 Vec2::operator+(const Vec2& rhs) const {
+    return Vec2(x + rhs.x, y + rhs.y);
+}
+
+Vec2 Vec2::operator-(const Vec2& rhs) const {
+	return Vec2(x - rhs.x, y - rhs.y);
+}
+
+Vec2 Vec2::operator*(const float rhs) const {
+	return Vec2(x * rhs, y * rhs);
+}
+
+bool Vec2::operator==(const Vec2& rhs) const {
+	return x == rhs.x && y == rhs.y;
+}
+
+bool Vec2::operator!=(const Vec2& rhs) const {
+	return x != rhs.x || y != rhs.y;
 }
 
 float Vec2::Dot(Vec2 v1, Vec2 v2) {
-	return  v1.x * v2.x + v1.y * v2. y;
+	return  v1.x * v2.x + v1.y * v2.y;
 }
 
 float Vec2::Det(Vec2 v1, Vec2 v2) {

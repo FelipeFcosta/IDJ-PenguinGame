@@ -20,6 +20,7 @@ public:
     void RequestDelete();
     void AddComponent(Component* cpt);
     void RemoveComponent(Component* cpt);
+    void NotifyCollision(GameObject& other);
 	Component* GetComponent(std::string type);
 	Rect box;	// position of GameObject in game
 

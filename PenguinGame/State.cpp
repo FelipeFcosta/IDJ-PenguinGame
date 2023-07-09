@@ -5,9 +5,14 @@
 #include "Sound.h"
 #include "Camera.h"
 #include "TileMap.h"
+#include "Collider.h"
+#include "Collision.h"
 #include "CameraFollower.h"
 #include "InputManager.h"
 #include "Alien.h"
+#include "Collision.h"
+#include "PenguinBody.h"
+//#include "Collider.h"
 
 #define TILE_SIZE 64
 
@@ -23,25 +28,34 @@ State::State() : quitRequested(false), started(false) {
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 
-	TileSet* tileSet = new TileSet(TILE_SIZE, TILE_SIZE, "resources/img/tileset.png");
+	TileSet* tileSet = new TileSet(*tileObj, TILE_SIZE, TILE_SIZE, "resources/img/tileset.png");
 	TileMap* tileMap = new TileMap(*tileObj, "resources/map/tileMap.txt", tileSet);
 	tileObj->AddComponent(tileMap);
 	objectArray.emplace_back(tileObj);
 
 	// alien
 	GameObject* alienObj = new GameObject();
-	Alien* alien = new Alien(*alienObj, 1);
+	Alien::alienCount = 0;
+	Alien* alien = new Alien(*alienObj, DEFAULT_QTD_MINIONS);
 	alienObj->AddComponent(alien);
-	alienObj->box.w = ((Sprite*) alienObj->GetComponent("Sprite"))->GetWidth();
-	alienObj->box.h = ((Sprite*) alienObj->GetComponent("Sprite"))->GetHeight();
 	alienObj->box.x = 512 - alienObj->box.w/2;
 	alienObj->box.y = 300 - alienObj->box.h/2;
 	objectArray.emplace_back(alienObj);
+
+	// penguins
+	GameObject* pBodyObj = new GameObject();
+	PenguinBody* pBody = new PenguinBody(*pBodyObj);
+	pBodyObj->AddComponent(pBody);
+	pBodyObj->box.x = 704 - pBodyObj->box.w/2;
+	pBodyObj->box.y = 640 - pBodyObj->box.h/2;
+	objectArray.emplace_back(pBodyObj);
+	Camera::Follow(pBodyObj);
 
 	music.Open("resources/audio/stageState.ogg");
 	if (music.IsOpen()) {
 		music.Play();
 	}
+
 }
 
 State::~State() {
@@ -96,29 +110,37 @@ void State::LoadAssets() {
 void State::Update(float dt) {
 	Camera::Update(dt);
 
-	InputManager& inputManager = InputManager::GetInstance();
+	InputManager& input = InputManager::GetInstance();
 
-	if (inputManager.IsKeyDown(ESCAPE_KEY) || inputManager.QuitRequested()) {
+	if (input.IsKeyDown(ESCAPE_KEY) || input.QuitRequested()) {
 		quitRequested = true;
-	}
-	if (inputManager.KeyPress(SPACE_KEY)) {
-		// create object in a random angle in 200 radius distance
-		double radAngle = -M_PI + M_PI * (rand() % 1001) / 500.0;	// random angle between -PI and PI
-		Vec2 randVector = Vec2(200, 0).GetRotated(radAngle);
-		Vec2 mouseVector = Vec2(inputManager.GetMouseX(), inputManager.GetMouseY());
-		Vec2 objPos = Vec2::Sum(randVector, mouseVector);
-		//AddObject((int)objPos.x, (int)objPos.y);
-		AddObject(nullptr);
 	}
 
 	for (int i = 0; i < objectArray.size(); i++) {
 		objectArray[i]->Update(dt);
 	}
 
+	// verify collisions
+	for (int i = 0; i < objectArray.size(); i++) {
+		Collider* collider1 = (Collider*)objectArray[i]->GetComponent("Collider");
+		if (collider1 != nullptr) {
+			double angle1 = ((Sprite*)objectArray[i]->GetComponent("Sprite"))->GetAngleDeg();
+			for (int j = i+1; j < objectArray.size(); j++) {
+				Collider* collider2 = (Collider*)objectArray[j]->GetComponent("Collider");
+				if (collider2 != nullptr) {
+					double angle2 = ((Sprite*)objectArray[j]->GetComponent("Sprite"))->GetAngleDeg();
+					if (Collision::IsColliding(collider1->box, collider2->box, 0, 0)) {
+						objectArray[i]->NotifyCollision(*objectArray[j]);
+						objectArray[j]->NotifyCollision(*objectArray[i]);
+					}
+				}
+			}
+		}
+	}
+
 	for (int i = 0; i < objectArray.size(); i++) {
 		if (objectArray[i]->IsDead()) {
 			Sprite* associatedSprite = (Sprite*)objectArray[i]->GetComponent("Sprite");
-			associatedSprite->SetClip(0, 0, 0, 0);
 			objectArray.erase(objectArray.begin() + i);
 		}
 	}

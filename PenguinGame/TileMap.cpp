@@ -41,7 +41,7 @@ int& TileMap::At(int x, int y, int z) {
 
 void TileMap::Render() {
 	for (int layer = 0; layer < mapDepth; layer++) {
-		RenderLayer(layer, Camera::pos.x, Camera::pos.y);
+		RenderLayer(layer, (int) Camera::pos.x, (int) Camera::pos.y);
 	}
 }
 
@@ -50,7 +50,7 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	for (int x = 0; x < mapWidth; x++) {
 		for (int y = 0; y < mapHeight; y++) {
 			if (At(x, y, layer) != -1) {
-				float parallaxFactor = (layer == 0) ? 1 : 1.4;
+				float parallaxFactor = (layer == 0) ? 1.0f : 1.4f;
 				float xRenderPos = x * tileSet->GetTileWidth() - cameraX * parallaxFactor;
 				float yRenderPos = y * tileSet->GetTileHeight() - cameraY * parallaxFactor;
 
@@ -60,15 +60,15 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
 	}
 }
 
-int TileMap::getWidth() {
+int TileMap::GetWidth() {
 	return mapWidth;
 }
 
-int TileMap::getHeight() {
+int TileMap::GetHeight() {
 	return mapHeight;
 }
 
-int TileMap::getDepth() {
+int TileMap::GetDepth() {
 	return mapDepth;
 }
 

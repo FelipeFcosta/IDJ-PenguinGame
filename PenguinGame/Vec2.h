@@ -7,13 +7,16 @@ public:
 	float x, y;
 
 	Vec2(float x, float y);
-	Vec2 GetRotated(float angle);
 
-	static Vec2 Sum(Vec2 v1, Vec2 v2);
-	static Vec2 Subtract(Vec2 v1, Vec2 v2);
+	Vec2 operator+(const Vec2& rhs) const;
+	Vec2 operator-(const Vec2& rhs) const;
+	Vec2 operator*(const float rhs) const;
+	bool operator==(const Vec2& rhs) const;
+	bool operator!=(const Vec2& rhs) const;
 	static float Angle(Vec2 v1, Vec2 v2);
 	static float Magnitude(Vec2 v);
 	static float Dot(Vec2 v1, Vec2 v2);
 	static float Det(Vec2 v1, Vec2 v2);
-	static Vec2 Normalize(Vec2 v);
+	static Vec2 Norm(Vec2 v);
+	static Vec2 Rotate(Vec2 v, float angle);
 };
