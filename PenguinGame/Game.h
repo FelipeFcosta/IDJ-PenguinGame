@@ -4,7 +4,10 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
+#include "StageState.h"
 #include "State.h"
+#include <stack>
 #include <string>
 
 #define GAME_WIDTH 1024
@@ -14,25 +17,30 @@
 class Game
 {
 public:
-	~Game();	// destructor
-	void Run();
-	SDL_Renderer* GetRenderer();
-	State& GetState();
+	Game(std::string title, int width, int height);
+	~Game();
 	static Game& GetInstance();	// returns a reference to the instance of the class
+	SDL_Renderer* GetRenderer();
+	State& GetCurrentState();
 
-	void CalculateDeltaTime();
+	void Push(State* state);
+	void Run();
+
 	float GetDeltaTime();
 
 private:
-	Game(std::string title, int width, int height);
-	
+	void CalculateDeltaTime();
+
 	static Game* instance;
-	SDL_Window* window;
-	SDL_Renderer* renderer;
-	State* state;
 
 	int frameStart;
 	float dt;	// time passed since last frame (in seconds)
+
+	State* storedState;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
+	std::stack<std::unique_ptr<State>> stateStack;
+
 };
 
 #endif // GAME_H

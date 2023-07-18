@@ -14,8 +14,12 @@ Sound::~Sound() {
 	}
 }
 
+void Sound::SetVolume(int volume) {
+	Mix_Volume(channel, volume);
+}
+
 void Sound::Play(int times) {
-	channel = Mix_PlayChannel(-1, chunk, times - 1);
+	channel = Mix_PlayChannel(-1, chunk.get(), times - 1);
 	if (channel == -1) {
 		std::cout << "error playing sound: " << SDL_GetError();
 	}

@@ -74,7 +74,7 @@ void PenguinCannon::Shoot() {
     Sprite* bulletSprite = (Sprite*)bulletObj->GetComponent("Sprite");
     bulletSprite->SetAngleDeg(angle * 180.0f / (float)M_PI);
 
-    Game::GetInstance().GetState().AddObject(bulletObj);
+    Game::GetInstance().GetCurrentState().AddObject(bulletObj);
 }
 
 void PenguinCannon::NotifyCollision(GameObject& other) {

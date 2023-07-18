@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "SDL_Mixer.h"
 #include <string>
+#include <memory>
 
 class Music
 {
@@ -16,7 +17,8 @@ public:
 	void Open(std::string file);
 	bool IsOpen();
 private:
-	Mix_Music* music;
+	std::shared_ptr<Mix_Music> music;
+	std::string currFile;
 
 };
 

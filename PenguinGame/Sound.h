@@ -5,6 +5,7 @@
 #include "Component.h"
 #include "GameObject.h"
 #include <SDL_mixer.h>
+#include <memory>
 
 class Sound : public Component
 {
@@ -17,11 +18,12 @@ public:
     void Open(std::string file);
     bool IsOpen();
     bool IsPlaying();
+    void SetVolume(int volume);
     void Update(float dt);
     void Render();
     bool Is(std::string type);
 private:
-    Mix_Chunk* chunk;
+    std::shared_ptr<Mix_Chunk> chunk;
     int channel;
 };
 

@@ -29,6 +29,8 @@ private:
 	float angle;
 	int hp;
 	Timer damageTimer;
+	Timer endTimer;
+	bool penguinDead;
 };
 
 #endif // PENGUIN_BODY_H

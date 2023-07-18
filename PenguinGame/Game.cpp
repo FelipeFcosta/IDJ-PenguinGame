@@ -5,24 +5,31 @@
 
 Game* Game::instance = nullptr;
 
-Game& Game::GetInstance() {
-	if (instance == nullptr) {
-		instance = new Game("Felipe Costa - 190027592", GAME_WIDTH, GAME_HEIGHT);
+Game::~Game() {
+	if (storedState != nullptr) {
+		delete storedState;
 	}
-	return *instance;
+
+	while (!stateStack.empty()) {
+		stateStack.pop();
+	}
+
+	Resources::ClearAll();
+
+	Mix_CloseAudio();
+	Mix_Quit();
+
+	IMG_Quit();
+
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	TTF_Quit();
+
+	SDL_Quit();
 }
 
-void Game::CalculateDeltaTime() {
-	int oldFrameStart = frameStart;
-	frameStart = SDL_GetTicks();
-	dt = ((float)frameStart - (float)oldFrameStart)/1000.0f;
-}
 
-float Game::GetDeltaTime() {
-	return dt;
-}
-
-Game::Game(std::string title, int width, int height) : window(nullptr), renderer(nullptr), state(nullptr) {
+Game::Game(std::string title, int width, int height) : window(nullptr), renderer(nullptr), storedState(nullptr) {
 	frameStart = 0;
 	dt = 0;
 
@@ -48,6 +55,11 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 			std::cout << "Error opening SDL_Mixer audio" << std::endl;
 			exit(EXIT_FAILURE);
 		}
+
+		if (TTF_Init() != 0) {
+			std::cout << "Error initializing SDL_TTF:" << std::endl;
+			exit(EXIT_FAILURE);
+		}
 		Mix_AllocateChannels(32); // simultaneous audio channels
 
 		int windowFlags = 0; // window properties, e.g. SDL_WINDOW_FULLSCREEN
@@ -62,11 +74,30 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 			std::cout << "Error creating SDL_Renderer" << std::endl;
 			exit(EXIT_FAILURE);
 		}
-
-		state = new State();	// the only state of the game for now
 	}
 }
 
+
+Game& Game::GetInstance() {
+	if (instance == nullptr) {
+		instance = new Game("Felipe Costa - 190027592", GAME_WIDTH, GAME_HEIGHT);
+	}
+	return *instance;
+}
+
+void Game::CalculateDeltaTime() {
+	int oldFrameStart = frameStart;
+	frameStart = SDL_GetTicks();
+	dt = ((float)frameStart - (float)oldFrameStart)/1000.0f;
+}
+
+float Game::GetDeltaTime() {
+	return dt;
+}
+
+void Game::Push(State* state) {
+	storedState = state;
+}
 
 /* game loop
     1. Checks, controls and loads the screens
@@ -75,39 +106,57 @@ Game::Game(std::string title, int width, int height) : window(nullptr), renderer
 	4. Draws the objects to the screen
 */
 void Game::Run() {
+	// start game with initial state
+	if (storedState == nullptr) {
+		exit(EXIT_FAILURE);
+	}
+
+	stateStack.push(std::unique_ptr<State>(storedState));
+	GetCurrentState().Start();
+	storedState = nullptr;
+
 	InputManager& input = InputManager::GetInstance();
-	state->Start();
-	while (state->QuitRequested() == false) {
+	while (!stateStack.empty() && GetCurrentState().QuitRequested() == false) {
+		if (GetCurrentState().PopRequested()) {
+			stateStack.pop();
+			Resources::ClearAll();
+			if (!stateStack.empty()) {
+				GetCurrentState().Resume();
+			}
+		}
+
+		if (storedState != nullptr) {	// new state take over
+			if (!stateStack.empty()) {
+				GetCurrentState().Pause();
+			}
+			stateStack.push(std::unique_ptr<State>(storedState));
+			GetCurrentState().Start();
+			storedState = nullptr;
+		}
+
 		CalculateDeltaTime();
 
 		input.Update();
 
-		state->Update(dt);
-		state->Render();
+		GetCurrentState().Update(dt);
+		GetCurrentState().Render();
 
 		SDL_RenderPresent(renderer);
 
 		SDL_Delay(1000/FPS);
 	}
-	Resources::ClearAll();
+
+	while ((!stateStack.empty())) {
+		stateStack.pop();
+		Resources::ClearAll();
+	}
 }
 
 SDL_Renderer* Game::GetRenderer() {
 	return renderer;
 }
 
-State& Game::GetState() {
-	return *state;
+State& Game::GetCurrentState() {
+	return *stateStack.top().get();
 }
 
-Game::~Game() {
-	Mix_CloseAudio();
-	Mix_Quit();
-
-	IMG_Quit();
-
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-
-	SDL_Quit();
-}

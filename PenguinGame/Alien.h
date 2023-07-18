@@ -9,12 +9,12 @@
 #include <memory>
 
 #define DEFAULT_QTD_MINIONS 3
+#define ALIEN_REST_TIME 2
 
-// mouse-controlled enemy
 class Alien : public Component
 {
 public:
-	Alien(GameObject& associated, int nMinions);
+	Alien(GameObject& associated, int nMinions, float timeOffset);
 	~Alien();
 	void Start();
 	void Update(float dt);
@@ -37,7 +37,9 @@ private:
 	AlienState state;
 
 	Timer restTimer;
+	Timer endTimer;
 	Vec2 destination;
+	bool alienDead;
 
 };
 

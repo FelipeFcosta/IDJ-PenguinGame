@@ -1,33 +1,44 @@
 #pragma once
 #ifndef STATE_H
 #define STATE_H
-#include "SDL.h"
-#include "Sprite.h"
-#include "Music.h"
-#include <vector>
+
+#include "GameObject.h"
 #include <memory>
 
-// responsable for the logic of our game
-class State {
+class State
+{
 public:
 	State();
-	~State();
-	void Start();
-	std::weak_ptr<GameObject> AddObject(GameObject *go);
-	std::weak_ptr<GameObject> GetObjectPtr(GameObject *go);
+	virtual ~State();
+
+	virtual void LoadAssets() = 0;
+
+	// called every frame (if on top of stack)
+	virtual void Update(float dt) = 0;
+	virtual void Render() = 0;
+
+	virtual void Start() {};
+	virtual void Pause() = 0;	// when another state is stacked above it
+	virtual void Resume() = 0;	// when above state is popped
+
+	virtual std::weak_ptr<GameObject> AddObject(GameObject* object);
+	virtual std::weak_ptr<GameObject> GetObjectPtr(GameObject* object);
+
+	// engine communication interface
+	bool PopRequested();
 	bool QuitRequested();
-	void LoadAssets();
-	void Update(float dt);
-	void Render();
 
+protected:
+	void StartArray();
+	virtual void UpdateArray(float dt);
+	virtual void RenderArray();
 
-private:
-	// manage game objects, shared_ptr for auto memory management of a GameObject
-	std::vector<std::shared_ptr<GameObject>> objectArray;
-	GameObject* bg;
-	Music music;
+	bool popRequested;
 	bool quitRequested;
 	bool started;
+
+	std::vector<std::shared_ptr<GameObject>> objectArray;
+
 };
 
-#endif // STATE_H
+#endif // !STATE_H

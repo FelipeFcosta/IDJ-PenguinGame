@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "Timer.h"
 #include <string>
+#include <memory>
 
 class Sprite : public Component
 {
@@ -15,6 +16,7 @@ public:
 	~Sprite();
 	void Open(std::string file);
 	void SetClip(int x, int y, int w, int h);
+	SDL_Rect GetClip();
 	int GetWidth();
 	int GetHeight();
 	bool IsOpen();
@@ -37,8 +39,11 @@ public:
 	void Render(int x, int y, int w, int h);
 	bool Is(std::string file);
 
+	void SetVisible(bool visible);
+	bool IsVisible();
+
 private:
-	SDL_Texture* texture;
+	std::shared_ptr<SDL_Texture> texture;
 	int width, height;
 	SDL_Rect clipRect;		// clip rectangle of the image to be rendered
 	Vec2 scale;
@@ -51,8 +56,9 @@ private:
 	float timeElapsed;
 
 	float secondsToSelfDestruct;
-	Timer selfDestructCount;
+	Timer selfDestructTimer;
 
+	bool visible;
 };
 
 #endif // SPRITE_H

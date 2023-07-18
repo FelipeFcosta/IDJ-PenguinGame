@@ -156,14 +156,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraFollower.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Face.cpp" />
+    <ClCompile Include="EndState.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -174,23 +175,27 @@
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StageState.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TitleState.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraFollower.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="Face.h" />
+    <ClInclude Include="EndState.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minion.h" />
@@ -200,11 +205,14 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="State.h" />
+    <ClInclude Include="StageState.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TitleState.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>

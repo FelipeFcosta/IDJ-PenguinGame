@@ -10,7 +10,7 @@
 class Minion : public Component
 {
 public:
-	Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0);
+	Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg = 0, float speedFactor = 1);
 
 	void Update(float dt);
 	void Render();
@@ -22,6 +22,7 @@ private:
 	std::weak_ptr<GameObject> alienCenter;
 	float arc;
 	Timer damageTimer;
+	float speedFactor;
 };
 
 

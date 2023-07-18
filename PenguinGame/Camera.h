@@ -12,7 +12,7 @@ public:
 
 	static Vec2 pos;
 	static Vec2 speed;
-	static int shakeTime;
+	static float shakeTime;
 
 private:
 	static GameObject* focus;

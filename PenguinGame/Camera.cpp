@@ -4,12 +4,11 @@
 #include <iostream>
 
 #define	SPEED 300
-#define	SHAKE_TIME 0.5
 
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::speed = Vec2(SPEED, SPEED);
 Vec2 Camera::pos = Vec2(0, 0);
-int Camera::shakeTime = 0;
+float Camera::shakeTime = 0;
 Timer Camera::shakeTimer = Timer();
 
 void Camera::Follow(GameObject* newFocus) {
@@ -27,7 +26,7 @@ void Camera::Update(float dt) {
 
 		if (shakeTime > 0) {
 			shakeTimer.Update(dt);
-			if (shakeTimer.Get() < SHAKE_TIME) {
+			if (shakeTimer.Get() < shakeTime) {
 				bool xPositive = (rand() % 2) == 1;
 				bool yPositive = (rand() % 2) == 1;
 				pos.x += xPositive ? 2 : -2;

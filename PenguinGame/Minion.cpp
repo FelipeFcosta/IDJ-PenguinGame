@@ -11,8 +11,8 @@
 #define BULLET_DAMAGE 10
 #define BULLET_MAX_DIST 1000
 
-Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg)
-	: Component(associated), arc(arcOffsetDeg * (float) M_PI/180.0f), alienCenter(alienCenter) {
+Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, float arcOffsetDeg, float speedFactor)
+	: Component(associated), arc(arcOffsetDeg * (float) M_PI/180.0f), alienCenter(alienCenter), speedFactor(speedFactor) {
 
 	Sprite* minionSprite = new Sprite(associated, "resources/img/minion.png", 2, 0);
 	Collider* minionCollider = new Collider(associated, {0.5, 0.5});
@@ -20,24 +20,30 @@ Minion::Minion(GameObject& associated, std::weak_ptr<GameObject> alienCenter, fl
 	associated.AddComponent(minionSprite);
 	associated.AddComponent(minionCollider);
 
+	this->speedFactor = speedFactor;
 	damageTimer = Timer();
 }
 
 void Minion::Shoot(Vec2 target) {
-	Vec2 associatedCenter = associated.box.GetCenter();
-	float angle = Vec2::Angle({1, 0}, target - associated.box.GetCenter());
+	Sprite* minionSprite = (Sprite*)associated.GetComponent("Sprite");
 
-	GameObject* bulletObj = new GameObject();
-	Bullet* bullet = new Bullet(*bulletObj, 3, 0.1, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DIST, "resources/img/minionbullet2.png", true);
-	bulletObj->AddComponent(bullet);
+	if (minionSprite->IsVisible()) {
 
-	bulletObj->box.x = associatedCenter.x;
-	bulletObj->box.y = associatedCenter.y;
+		Vec2 associatedCenter = associated.box.GetCenter();
+		float angle = Vec2::Angle({ 1, 0 }, target - associated.box.GetCenter());
 
-	Sprite* bulletSprite = (Sprite*)bulletObj->GetComponent("Sprite");
-	bulletSprite->SetAngleDeg(angle * 180.0f / (float) M_PI);
+		GameObject* bulletObj = new GameObject();
+		Bullet* bullet = new Bullet(*bulletObj, 3, 0.1, angle, BULLET_SPEED, BULLET_DAMAGE, BULLET_MAX_DIST, "resources/img/minionbullet2.png", true);
+		bulletObj->AddComponent(bullet);
 
-	Game::GetInstance().GetState().AddObject(bulletObj);
+		bulletObj->box.x = associatedCenter.x;
+		bulletObj->box.y = associatedCenter.y;
+
+		Sprite* bulletSprite = (Sprite*)bulletObj->GetComponent("Sprite");
+		bulletSprite->SetAngleDeg(angle * 180.0f / (float)M_PI);
+
+		Game::GetInstance().GetCurrentState().AddObject(bulletObj);
+	}
 }
 
 void Minion::Update(float dt) {
@@ -59,7 +65,7 @@ void Minion::Update(float dt) {
 	associated.box.y += minionRotated.y;
 	
 	// increment the arc in each frame
-	arc += MINION_SPEED * dt;
+	arc += MINION_SPEED * speedFactor * dt;
 
 	if (sprite->GetFrame() == 1 && damageTimer.Get() >= 0.05) {
 		sprite->SetFrame(0);

@@ -9,6 +9,7 @@ TileMap::TileMap(GameObject& associated, std::string file, TileSet* tileSet) : C
 }
 
 TileMap::~TileMap() {
+	delete tileSet;
 }
 
 void TileMap::Load(std::string file) {

@@ -36,15 +36,17 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated),
     associated.AddComponent(pBodySprite);
     associated.AddComponent(pBodyCollider);
     damageTimer = Timer();
+    endTimer = Timer();
+    penguinDead = false;
     player = this;
 }
 
 
 void PenguinBody::Start() {
     GameObject* pCannonObj = new GameObject();
-    PenguinCannon* pCannon = new PenguinCannon(*pCannonObj, Game::GetInstance().GetState().GetObjectPtr(&associated));
+    PenguinCannon* pCannon = new PenguinCannon(*pCannonObj, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
     pCannonObj->AddComponent(pCannon);
-    pcannon = Game::GetInstance().GetState().AddObject(pCannonObj);
+    pcannon = Game::GetInstance().GetCurrentState().AddObject(pCannonObj);
 }
 
 void PenguinBody::Update(float dt) {
@@ -74,30 +76,56 @@ void PenguinBody::Update(float dt) {
     speed.x = normalizedSpeed.x * linearSpeed;
     speed.y = normalizedSpeed.y * linearSpeed;
 
+    // border limits
+    if (associated.box.x + associated.box.w/2 > 1408) {
+        associated.box.x = 1408 - associated.box.w/2 - 1;
+        speed.x = 0;
+        linearSpeed = linearSpeed > 0 ? abs(speed.y) : -abs(speed.y);
+    } else if (associated.box.x < 0) {
+        associated.box.x = 1;
+        speed.x = 0;
+        linearSpeed = linearSpeed > 0 ? abs(speed.y) : -abs(speed.y);
+    } else if (associated.box.y + associated.box.h/2 > 1280) {
+        associated.box.y = 1280 - associated.box.h/2 - 1;
+        speed.y = 0;
+        linearSpeed = linearSpeed > 0 ? abs(speed.x) : -abs(speed.x);
+    } else if (associated.box.y < 0) {
+        associated.box.y = 1;
+        speed.y = 0;
+        linearSpeed = linearSpeed > 0 ? abs(speed.x) : -abs(speed.x);
+    }
+
     associated.box.x += speed.x * dt;
     associated.box.y += speed.y * dt;
     position = { associated.box.x, associated.box.y };
+
 
     Sprite* sprite = ((Sprite*)associated.GetComponent("Sprite"));
     sprite->SetAngleDeg(angle * 180.0f / (float)M_PI);
 
     if (hp <= 0) {
-        if (auto pCannon = pcannon.lock()) {
-            pCannon->RequestDelete();
+        if (!penguinDead) {
+            penguinDead = true;
+            endTimer.Restart();
+            if (auto pCannon = pcannon.lock()) {
+                pCannon->RequestDelete();
+            }
+            Camera::UnFollow();
+
+            GameObject* deathObj = new GameObject();
+            Sprite* deathSprite = new Sprite(*deathObj, "resources/img/penguindeath.png", 5, 0.25, { 1, 1 }, 5 * 0.25);
+            deathObj->box.x = associated.box.x;
+            deathObj->box.y = associated.box.y;
+            deathObj->AddComponent(deathSprite);
+            Sound* deathSound = new Sound(*deathObj, "resources/audio/boom.wav");
+            deathSound->SetVolume(50);
+            deathSound->Play(1);
+            deathObj->AddComponent(deathSound);
+            Game::GetInstance().GetCurrentState().AddObject(deathObj);
+
+            // make previous sprite disappear
+            ((Sprite*)associated.GetComponent("Sprite"))->SetVisible(false);
         }
-        Camera::UnFollow();
-
-        GameObject* deathObj = new GameObject();
-        Sprite* deathSprite = new Sprite(*deathObj, "resources/img/penguindeath.png", 5, 0.25, { 1, 1 }, 5*0.25);
-        deathObj->box.x = associated.box.x;
-        deathObj->box.y = associated.box.y;
-        deathObj->AddComponent(deathSprite);
-        Sound* deathSound = new Sound(*deathObj, "resources/audio/boom.wav");
-        deathSound->Play(1);
-        deathObj->AddComponent(deathSound);
-        Game::GetInstance().GetState().AddObject(deathObj);
-
-        associated.RequestDelete();
     }
 
     if (sprite->GetFrame() == 1 && damageTimer.Get() >= 0.05) {
@@ -105,6 +133,12 @@ void PenguinBody::Update(float dt) {
         Camera::shakeTime = 0;
     }
     damageTimer.Update(dt);
+    endTimer.Update(dt);
+
+    if (penguinDead && endTimer.Get() >= 5 * 0.25) {
+        associated.RequestDelete();
+        Camera::shakeTime = 0;
+    }
 }
 
 void PenguinBody::NotifyCollision(GameObject& other) {
@@ -119,7 +153,7 @@ void PenguinBody::NotifyCollision(GameObject& other) {
         hp -= ALIEN_DAMAGE;
 
     if ((bullet && bullet->targetedAtPlayer) || alien || minion) {
-        Camera::shakeTime = 1;
+        Camera::shakeTime = 0.5f;
         Sprite* sprite = ((Sprite*)associated.GetComponent("Sprite"));
         sprite->SetFrame(1);
         damageTimer.Restart();

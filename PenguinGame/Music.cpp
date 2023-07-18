@@ -11,11 +11,14 @@ Music::Music(std::string file) {
 }
 
 Music::~Music() {
-	Stop(1500);
+	if (Mix_PlayingMusic()) {
+		Stop(1500);
+	}
 }
 
 void Music::Play(int times) {
-	if (Mix_PlayMusic(music, times) == -1) {
+	Stop(0);
+	if (Mix_PlayMusic(music.get(), times) == -1) {
 		std::cout << "error playing music: " << SDL_GetError();
 	}
 }
@@ -25,6 +28,7 @@ void Music::Stop(int msToStop) {
 }
 
 void Music::Open(std::string file) {
+	currFile = file;
 	music = Resources::GetMusic(file.c_str());
 }
 
